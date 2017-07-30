@@ -21,8 +21,9 @@ def get_uid(username):
     for item in resultdata:
         if item['nickname']==username:
             print('-成功找到:',item['nickname'],' -ID号为：',item['userId'],'-粉丝数：',item['followeds'])
-            return item['userId']
+            return item['userId'],item#返回用户id和包含用户所有信息的dict
 
+#存在一次只能获得上限1000的歌曲，超过的解决办法还没有想到
 def get_songid(playlistid):
     headers = {
         'Cookie': 'appver=1.5.0.75771;',
@@ -36,8 +37,8 @@ def get_songid(playlistid):
     songidlist=[]
     for item in jsondatadict['result']['tracks']:
         #print('-歌名：',item['name'],'-ID',item['id'])
-        songidlist.append(item['id'])
-    return songidlist
+        songidlist.append((item['name'],item['id']))
+    return songidlist#返回的是包含歌名，id对的列表
     #print(response.text)
 
 #print(get_songid(139193755))

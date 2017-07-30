@@ -60,10 +60,10 @@ def get_playlist(uid):
     json_text = get_json(url,headers, params, encSecKey)
     json_dict = json.loads(json_text.decode('utf-8'))
     print("已下是他/她的歌单：")
-    play_list=[]
+    play_list={}
     for item in json_dict['playlist']:
         print(item['name'],'-ID:',item['id'])
-        play_list.append(item['id'])
+        play_list[item['name']]=item['id']
     return play_list
 
 def get_comments(songid,page):
@@ -94,25 +94,36 @@ def get_comments(songid,page):
     comments_list=[]
     for comments in json_dict['comments']:
         #print(comments)
-        comments_list.append((comments['user']['nickname'],comments['content']))
+        comments_list.append((comments['user']['nickname'],comments['content'],str(page)))
+    with open('comments.txt','at',encoding= 'utf8') as f1:
+        with open('hi_comments.txt','at',encoding= 'utf8') as f2:
+            for comment in comments_list: 
+                if comment[0]!='恰恰恰好的':
+                    f1.write('<:>'.join(comment))
+                    f1.write('\n')
+                else:
+                    f2.write('<:>'.join(comment))
+                    f2.write('\n')
+
     return json_dict['total'],comments_list
 
 def get_all_comments(songid):
     total_comments,_=get_comments(songid,1)
     all_comments=[]
     if(total_comments % 20 == 0):
-        page = total_comments / 20
+        page = total_comments // 20
     else:
-        page = int(total_comments / 20) + 1 
+        page = total_comments // 20 + 1 
     for i in range(1,page+1):
         _,comments_list=get_comments(songid,i)
         all_comments.extend(comments_list)
     return all_comments
     #print(total_comments)
 #get_playlist(85786265)
-x=get_all_comments(273288)
-for y in x:
-    if y[0]=='恰恰恰好的':
-        print(y[1])
+# x=get_all_comments(273288)
+# print(x)
+# for y in x:
+#     if y[0]=='恰恰恰好的':
+#         print(y[1])
 
         
