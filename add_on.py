@@ -2,7 +2,7 @@ import pickle
 import get_search,get_songlist
 
 #给出需要寻找的用户名
-username='恰恰恰好的'
+username='此昵称已被抢也被抢了'
 all_songs_id={}#存放需要搜寻的用户歌曲id
 
 #已下经过第一次获取歌曲id后就可以不运行
@@ -24,7 +24,7 @@ pkl=open(username+'.pkl','rb')
 all_songs_id=pickle.load(pkl)
 pkl.close()
 
-#print(all_songs_id['未来的婚礼'])
-for song in all_songs_id['opera_for_uncle']:
-    print(song[1])
-    x=get_songlist.get_all_comments(song[1])
+for item in [all_songs_id['OST'],all_songs_id['؏؏ᖗ¤̴̶̷̤́‧̫̮¤̴̶̷̤̀)ᖘ؏؏']]:
+    for song in item:
+        print('进行---> ',song[0])
+        get_songlist.get_all_comments(song[0],song[1],username)
